@@ -1,19 +1,22 @@
 import { useRouter } from "next/dist/client/router";
 import { comments } from "../../data/comments";
 
-function comment({ comment: { id, body, postId } }) {
+function  Comment(props) {
   const router = useRouter();
   if (router.isFallback) {
     return <h2>...Loading</h2>;
   }
   return (
     <>
-      <h2>{id}</h2>
-      <h2>{body}</h2>
+    {props.comment && <>
+ <h2>{props?.comment.id}</h2>
+ <h2>{props?.commentbody}</h2></>
+    }
+     
     </>
   );
 }
-export default comment;
+export default Comment;
 
 // You should use getStaticPaths if you’re statically pre-rendering pages that use dynamic routes
 export const getStaticPaths = async () => {
@@ -42,7 +45,7 @@ export const getStaticPaths = async () => {
 //- The page must be pre-rendered (for SEO) and be very fast — getStaticProps generates HTML and JSON files, both of which can be cached by a CDN for performance.
 export const getStaticProps = async (context) => {
   
-  const response = await comments.find(
+  const response = comments.find(
     (item) => (item.id = context.params.commentid)
   );
 

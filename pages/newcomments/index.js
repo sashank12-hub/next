@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Link from "next/link"
-function comments() {
+function Comments() {
   const [getcomments, setcomments] = useState([]);
   const [newComment, setnewComment] = useState("");
   const handlebuttonclick = async () => {
@@ -58,4 +58,4 @@ function comments() {
   );
 }
 
-export default comments;
+export default Comments;
