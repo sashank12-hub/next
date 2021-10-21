@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     try {
       const authorised = jwt.verify(
         req.headers.authorization.split("Bearer ")[1],
-        "vgjdwhyjkfcadhbkjvadb,hkj"
+        process.env.KEY
       );
 
       res.status(200).json({ authorised });

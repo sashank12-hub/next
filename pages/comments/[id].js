@@ -1,7 +1,7 @@
-import { useRouter } from "next/dist/client/router";
+
 import Link from "next/link"
 function comment(props){
-  const router=  useRouter()
+ 
  
 return (
     <>
