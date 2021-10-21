@@ -1,5 +1,6 @@
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link"
+
 const First = ({posts}) => {
   
   const router =  useRouter()

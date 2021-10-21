@@ -1,7 +1,15 @@
-import '../styles/globals.css'
+import Navbar from "../components/navbar";
+import { Provider } from "../node_modules/next-auth/client";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  
+  return (
+    <Provider session={pageProps.session}>
+      <Navbar/>
+      <Component {...pageProps} />
+    </Provider>
+  );
 }
 
-export default MyApp
+export default MyApp;

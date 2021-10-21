@@ -41,7 +41,7 @@ export const getStaticPaths = async () => {
 //- The data can be publicly cached (not user-specific).
 //- The page must be pre-rendered (for SEO) and be very fast — getStaticProps generates HTML and JSON files, both of which can be cached by a CDN for performance.
 export const getStaticProps = async (context) => {
-  console.log(context.params);
+  
   const response = await comments.find(
     (item) => (item.id = context.params.commentid)
   );
