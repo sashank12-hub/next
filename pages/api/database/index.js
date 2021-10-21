@@ -16,7 +16,7 @@ export default async function handler(req, res) {
       res.status(401).json({err});
     }
 
-    console.log("authorised", authorised);
+   // console.log("authorised", authorised);
     //    console.log(req.headers.authorization.split("Bearer ")[1])
     // res.send(200).json(req.headers)
   }
