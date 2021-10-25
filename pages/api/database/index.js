@@ -4,8 +4,10 @@ import jwt from "jsonwebtoken";
 Connection();
 
 export default async function handler(req, res) {
+  
   if (req.method === "POST") {
     try {
+      // console.log(req.body)
       const authorised = jwt.verify(
         req.headers.authorization.split("Bearer ")[1],
         process.env.KEY

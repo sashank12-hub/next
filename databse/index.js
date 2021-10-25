@@ -6,7 +6,7 @@ const Connection=()=>{
    console.log("already connected");
         return
     }
-  mongoose.connect(process.env.MONGOURL, {
+  mongoose.connect("mongodb+srv://sashank:sashankpassword@cluster0.ugbba.mongodb.net/next?retryWrites=true&w=majority", {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
