@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { gql } from "apollo-server-micro";
-import apolloclient from "../apolloclient";
+import router, {useRouter}from "next/router";
+// import apolloClient from "../apolloclient";
 
 function Likes(props) {
+
   //   console.log(props.query);
-  const [state, setstate] = useState({
-    error: {},
-  });
+  const [state, setstate] = useState({username:"",password:""});
 
   const GET_USERS = gql`
     {
@@ -17,31 +17,45 @@ function Likes(props) {
       }
     }
   `;
-  //   const { data, loading } = useQuery(GET_USERS);
-  //   if (loading) {
-  //     return "loading";
-  //   }
+ 
+  const ADD_USER = gql`
+    mutation addUser(
+      $username:String!
+      $password:String!
+    ){
+      addUser(userinput:{
+        username:$username
+        password:$password
+      }){
+        username
+        password
 
-  console.log(props?.data);
+      }
+    }`;
+  const [adduser, { loading }] = useMutation(ADD_USER, {
+    update(proxy, result) {
+   const x=   result.data.addUser[result.data.addUser.length -1]
+   console.log(x)
+      console.log(result);
+    },
+    variables:{
+      username:state.username,
+      password:state.password
+    }})
+ 
+  
   const handleLikes = async () => {
-    const res = await fetch("/api/likes");
-    const data = await res.json();
-    // if(data.error){
-    //
-    //     const user={
-    //         user:{
-    //             name:"unauth"
-    //         }
-    //     }
-    //     setstate(user)
-    // }
-    //
-    setstate(data);
+    router.push('/posts')
+  //  adduser()
+   
+    // setstate(data);
   };
   return (
     <>
-      <button onClick={handleLikes}>fetch</button>
-      {!state.error && state && <h2>{state?.user.user.name} </h2>}
+    <input type="text" name="username" value={state.username} onChange={(e)=>setstate({...state,username:e.target.value})}/>
+    <input type="text" name="password" value={state.password} onChange={(e)=>setstate({...state,password:e.target.value})}/>
+      <button onClick={handleLikes}>fetch here</button>
+     
       {}
     </>
   );
@@ -49,33 +63,33 @@ function Likes(props) {
 
 export default Likes;
 
-export async function getStaticProps() {
-  const GETUSERS = gql`
-    query {
-      getUsers {
-        username
-        password
-      }
-    }
-  `;
-
-const { data } = await apolloclient.query({
-    query: GETUSERS
-  })
-//   const { data } = await client.query({
-//     query: gql`
-//       query getusers {
-//         getUsers {
-//           username
-//           password
-//         }
+// export async function getStaticProps() {
+//   const GETUSERS = gql`
+//     query {
+//       getUsers {
+//         username
+//         password
 //       }
-//     `,
-//   });
+//     }
+//   `;
 
-  return {
-    props: {
-      data: data,
-    },
-  };
-}
+//   const { data } = await client.query({
+//     query: GETUSERS,
+//   });
+//   //   const { data } = await client.query({
+//   //     query: gql`
+//   //       query getusers {
+//   //         getUsers {
+//   //           username
+//   //           password
+//   //         }
+//   //       }
+//   //     `,
+//   //   });
+
+//   return {
+//     props: {
+//       data: data,
+//     },
+//   };
+// }

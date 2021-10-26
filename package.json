@@ -11,9 +11,12 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.16",
+    "@apollo/link-error": "^2.0.0-beta.3",
     "apollo-boost": "^0.4.9",
+    "apollo-link-context": "^1.0.20",
     "apollo-server": "^3.4.0",
     "apollo-server-micro": "^3.4.0",
+    "apollo-upload-client": "^16.0.0",
     "axios": "^0.23.0",
     "cloudinary": "^1.27.1",
     "crypto": "^1.0.1",
@@ -29,12 +32,14 @@
     "multer-gridfs-storage": "^5.0.2",
     "next": "11.1.2",
     "next-auth": "^3.27.3",
+    "next-with-apollo": "^5.2.1",
     "nprogress": "^0.2.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-redux": "^7.2.5",
     "redux": "^4.1.1",
     "sharp": "^0.29.2",
+    "styled-components": "^5.3.3",
     "swr": "^1.0.1"
   },
   "devDependencies": {
