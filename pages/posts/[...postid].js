@@ -2,7 +2,7 @@ import { useRouter } from "next/dist/client/router";
 import Link from "next/link"
 function SinglePost({ post }) {
   const router = useRouter();
-  
+  console.log(router.query)
   if(router.isFallback) return <h1>...Loading</h1>
 
   return (
@@ -23,7 +23,7 @@ export async function  getStaticPaths() {
       const data = await response.json();
       const paths=data.map(item=>({
           params:{
-              postid:`${item.id}`
+              postid:[`${item.id}`,""]
           }
       }))
   return {
@@ -47,7 +47,7 @@ export async function  getStaticPaths() {
 export async function getStaticProps(context) {
   
   const response = await fetch(
-    `https://my-json-server.typicode.com/typicode/demo/posts/${context.params.postid}`
+    `https://my-json-server.typicode.com/typicode/demo/posts/${context.params.postid[0]}`
   );
   const data = await response.json();
   if(!data) return {
