@@ -2,22 +2,22 @@ import { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { gql } from "apollo-server-micro";
 import router, { useRouter } from "next/router";
-import { GraphQLUpload } from "graphql-upload";
+import axios from "axios";
 // import apolloClient from "../apolloclient";
 
 function Likes(props) {
   const [file, setfile] = useState(null);
   const [state, setstate] = useState({ username: "", password: "" });
 
-  const FILE_UPLOAD = gql`
-    mutation fileupload($file: GraphQLUpload) {
-      uploadfile(file: {
-        file:$file
-      }) {
-        url
-      }
-    }
-  `;
+  // const FILE_UPLOAD = gql`
+  //   mutation fileupload($file) {
+  //     uploadfile(file: {
+  //       file:$file
+  //     }) {
+  //       url
+  //     }
+  //   }
+  // `;
 
   // const FILE_UPLOAD= gql`
   // `
@@ -61,27 +61,41 @@ function Likes(props) {
     },
   });
 
-  const [addfile] = useMutation(FILE_UPLOAD, {
-    update(proxy, result) {
-      console.log(result);
-    },
-    variables: { file },
-  });
+  // const [addfile] = useMutation(FILE_UPLOAD, {
+  //   update(proxy, result) {
+  //     console.log(result);
+  //   },
+  //   variables: { file },
+  // });
   const handleLikes = async () => {
     router.push("/posts");
     //  adduser()
 
     // setstate(data);
   };
-  const handlefilechange = async (event) => {
-    console.log(event.target.files[0])
-     setfile(event.target.file[0]);
+
+  const config = {
+    headers: { "content-type": "multipart/form-data" },
+    onUploadProgress: (event) => {
+      console.log(
+        `Current progress:`,
+        Math.round((event.loaded * 100) / event.total)
+      );
+    },
   };
-  const handlefilesubmit = () => {
-    if (file) {
-      console.log(file);
-      addfile();
-    }
+
+  const handlefilechange = async (event) => {
+    console.log(event.target.files[0]);
+    setfile(event.target.file[0]);
+  };
+  const handlefilesubmit = async () => {
+    const response = await axios.post('/api/fileupload', file, config)
+    let data = await res.json();
+    console.log(data)
+
+    // if (file) {
+    //   console.log(file);
+    // addfile();
   };
   return (
     <>
@@ -101,7 +115,12 @@ function Likes(props) {
 
       <div>
         <h2>here</h2>
-        <input type="file" name="file" onChange={(event)=>handlefilechange(event)} accept=".jpeg"/>
+        <input
+          type="file"
+          name="file"
+          onChange={(event) => handlefilechange(event)}
+          accept=".jpeg"
+        />
         <button onClick={handlefilesubmit}>submit</button>
       </div>
     </>

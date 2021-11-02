@@ -7,9 +7,8 @@ import { gql } from "apollo-server-micro";
 import { axios } from "axios";
 import User from "../../../databse/user.model";
 import Connection from "../../../databse/index";
-import path from 'path'
-const fs=require('fs')
-import {GraphQLUpload} from 'graphql-upload'
+
+
 Connection();
 const {
   GraphQLObjectType,
@@ -67,7 +66,7 @@ const typeDefs = gql`
 
   type Mutation {
     addUser(userinput: userInput): [User]
-    uploadfile(file:GraphQLUpload):File
+    # uploadfile(file):File
   }
 `;
 
@@ -98,15 +97,12 @@ const resolvers = {
       return user;
     }},
   Mutation: {
-    uploadfile:async(_,{file:{file}},context,info)=>{
-const {createReadStream,filename,mimetype,encoding}=await file
-const stream=createReadStream()
-const pathName=path.join(__dirname,"..","..","..","public","images",`${filename}`)
-await stream.pipe(fs.createWriteStream(pathName))
-return{
-  url:`http://localhost:3000/images/${filename}`
-}
-    },
+//     uploadfile:async(_,{file:{file}},context,info)=>{
+
+// return{
+//   url:`http://localhost:3000/images/${filename}`
+// }
+//     },
     addUser: async (
       _,
       { userinput: { username, password } },
